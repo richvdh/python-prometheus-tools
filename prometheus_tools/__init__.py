@@ -1,7 +1,6 @@
 import itertools
 import leveldb
 import struct
-from six import iteritems
 
 # all of the decodeXXX functions return a (result, pos) tuple.
 #
@@ -198,7 +197,9 @@ def stringify_labelled_metric(labels):
         labels["__name__"],
         ",".join(
             "%s=\"%s\"" % (k1,v1)
-            for k1, v1 in iteritems(labels)
+
+            # we sort the label names to keep the order stable.
+            for k1, v1 in sorted(labels.items())
             if k1 != "__name__",
         )
     )
